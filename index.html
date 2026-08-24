@@ -752,6 +752,13 @@
 
     window.openDrawModal = function() {
         initAudio();
+        
+        // 預載圖片機制：打開視窗時先將18張圖片塞入瀏覽器快取，保證動畫不卡頓
+        if (!window.cardsPreloaded) {
+            ALL_18_CARDS.forEach(c => { const img = new Image(); img.src = c.img; });
+            window.cardsPreloaded = true;
+        }
+
         const imgEl = document.getElementById('card-img-display'); const fallbackEl = document.getElementById('card-fallback');
         const container = document.getElementById('card-display-container');
         imgEl.style.display = 'none'; fallbackEl.style.display = 'flex';
@@ -763,9 +770,15 @@
 
     window.renderCardToDisplay = function(card) {
         const imgEl = document.getElementById('card-img-display'); const fallbackEl = document.getElementById('card-fallback');
-        imgEl.style.display = 'none'; fallbackEl.style.display = 'flex';
-        document.getElementById('card-fallback-icon').innerText = '🃏'; document.getElementById('card-fallback-title').innerText = card.name;
-        imgEl.src = card.img; imgEl.onload = () => { imgEl.style.display = 'block'; fallbackEl.style.display = 'none'; };
+        
+        // 移除原有的 onload 隱藏切換機制，直接強制顯示圖片，解決高速動畫閃爍與空白的問題
+        imgEl.src = card.img; 
+        imgEl.style.display = 'block'; 
+        fallbackEl.style.display = 'none';
+        
+        // 備用文字同步更新以防萬一
+        document.getElementById('card-fallback-icon').innerText = '🃏'; 
+        document.getElementById('card-fallback-title').innerText = card.name;
     };
 
     window.startDraw = function() {
