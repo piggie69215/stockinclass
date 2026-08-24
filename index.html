@@ -6,7 +6,6 @@
 <title>班級虛擬股市投資王 6.2</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-    /* 專業交易終端機配色 (Dark Mode) */
     :root {
         --primary: #3b82f6; --primary-dark: #2563eb;
         --success: #ff4d4f; /* 台股紅漲 */
@@ -27,14 +26,12 @@
     .nav-tabs button:hover { background: #21262d; color: #fff; }
     .nav-tabs button.active { background: var(--highlight); color: white; border-color: var(--highlight); box-shadow: 0 0 15px rgba(31,111,235,0.4); }
     
-    /* 內容區塊與卡片 */
     .tab-content { display: none; animation: fadeIn 0.3s ease; }
     .tab-content.active { display: block; }
     .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.5); margin-bottom: 25px; }
     h3 { color: #58a6ff; margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;}
     h4 { color: #e6edf3; margin-bottom: 15px; border-left: 4px solid var(--highlight); padding-left: 10px; }
     
-    /* 表單元件 */
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
     .form-group { display: flex; flex-direction: column; }
     label { font-weight: bold; margin-bottom: 8px; color: var(--text-muted); font-size: 0.95rem; }
@@ -53,14 +50,13 @@
     .btn-outline:hover { background: var(--border); }
     .btn-block { width: 100%; margin-top: 15px; }
     
-    /* 表格 */
+    /* 表格與漲跌樣式 */
     .table-responsive { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; background: var(--card-bg); white-space: nowrap; }
     th, td { padding: 12px 15px; text-align: center; border-bottom: 1px solid var(--border); }
     th { background-color: #010409; font-weight: bold; color: var(--text-muted); font-size: 0.9rem; }
     tbody tr:hover { background-color: #21262d; }
     
-    /* 漲跌標示 */
     .text-up { color: var(--success); font-weight: bold; text-shadow: 0 0 5px rgba(255,77,79,0.3); }
     .text-down { color: var(--danger); font-weight: bold; text-shadow: 0 0 5px rgba(0,230,118,0.3); }
     .text-neutral { color: var(--text-muted); }
@@ -71,7 +67,6 @@
     .rank-3 { background: rgba(180, 83, 9, 0.15); font-weight: bold; color: #d97706; }
     .rank-top5 { font-weight: bold; color: #60a5fa; }
     
-    /* 拖曳分組 */
     .dnd-container { display: flex; flex-direction: column; gap: 20px; }
     .dnd-pool { padding: 15px; background: #010409; border: 2px dashed var(--border); border-radius: 8px; min-height: 80px; display: flex; flex-wrap: wrap; gap: 10px; }
     .dnd-pool.drag-over { border-color: var(--highlight); background: rgba(31,111,235,0.1); }
@@ -90,7 +85,7 @@
     .buyer-btn.has-trades { border-bottom: 3px solid #d29922; }
     
     .trade-panel { background: #010409; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-top: 15px; display: none; }
-    .stock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+    .stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-bottom: 15px; }
     .stock-btn { padding: 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.2s; }
     .stock-btn:hover { border-color: var(--highlight); background: #21262d; }
     .stock-btn.active { background: #238636; color: white; border-color: #2ea043; }
@@ -104,12 +99,10 @@
     .trade-badge button { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 0 2px; }
     .trade-badge button:hover { color: var(--danger); }
 
-    /* Modal 通用 */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(4px); }
     .modal { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; max-width: 600px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: scaleUp 0.2s; max-height: 90vh; overflow-y: auto;}
     .modal h2 { margin-top: 0; color: #e6edf3; }
     
-    /* 抽卡與抽籤動畫樣式 */
     .card-display-container { width: 100%; max-width: 280px; aspect-ratio: 2.5 / 3.5; margin: 20px auto; border-radius: 12px; overflow: hidden; position: relative; border: 3px solid var(--border); box-shadow: 0 0 20px rgba(0,0,0,0.5); background: #010409; transition: transform 0.1s; }
     .card-display-container.shaking { animation: shake 0.1s infinite; border-color: var(--warning); box-shadow: 0 0 30px rgba(245,158,11,0.6); }
     .card-display-container img { width: 100%; height: 100%; object-fit: cover; display: none; }
@@ -130,15 +123,13 @@
     
     .final-publish-banner { background: linear-gradient(135deg, rgba(31,111,235,0.2) 0%, rgba(245,158,11,0.2) 100%); border: 2px solid var(--warning); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(245,158,11,0.3); animation: pulseGreen 2s infinite; }
 
-    /* QR Code 顯示區 */
-    #qrcode-display { display: flex; justify-content: center; background: white; padding: 20px; border-radius: 10px; margin: 20px auto; width: fit-content; }
+    #qrcode-display { display: flex; justify-content: center; background: white; padding: 20px; border-radius: 10px; margin: 15px auto; width: fit-content; min-width: 200px; min-height: 200px; }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 25% { transform: translate(-1px, -2px) rotate(-1deg); } 50% { transform: translate(-2px, 0px) rotate(1deg); } 75% { transform: translate(2px, 2px) rotate(0deg); } 100% { transform: translate(1px, -1px) rotate(-1deg); } }
     @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
 
-    /* 頂部跑馬燈列 */
     .top-bar { display: flex; justify-content: space-between; align-items: center; background: #010409; border: 1px solid var(--border); color: var(--text-main); padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; font-family: monospace; flex-wrap: wrap; gap: 10px;}
     .top-bar .ticker { color: #58a6ff; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
     .top-controls { display: flex; gap: 10px; flex-wrap: wrap;}
@@ -151,7 +142,6 @@
 </head>
 <body>
 
-<!-- 🌐 主控台介面 -->
 <div class="container" id="main-interface">
     <h1>📈 班級虛擬股市投資王 6.2 (動態組數版)</h1>
     
@@ -176,14 +166,12 @@
         <button onclick="window.switchTab('monthly', this)">💰 月底分紅與通膨</button>
     </div>
 
-    <!-- 1. 名單設定區 -->
     <div id="roster" class="tab-content active">
-        <!-- 動態組別設定區 -->
         <div class="card" style="border-color: var(--highlight);">
             <div style="display:flex; justify-content: space-between; align-items: center;">
                 <h3 style="margin: 0; padding-bottom: 0; border: none;">🏫 班級基本設定</h3>
             </div>
-            <div style="margin-top: 15px; display: flex; align-items: center; gap: 15px;">
+            <div style="margin-top: 15px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                 <label style="margin: 0; font-size: 1.1rem;">目前設定組別數量：</label>
                 <input type="number" id="group-count-input" min="1" max="15" value="7" style="width: 80px; text-align: center; font-weight: bold; color: var(--warning);">
                 <button class="btn btn-primary" onclick="window.updateGroupCount()">💾 儲存並套用組數</button>
@@ -207,7 +195,6 @@
             </div>
         </div>
         
-        <!-- 備份與還原區塊 -->
         <div class="card" style="margin-top: 25px;">
             <h3>💾 資料備份與還原 (手動)</h3>
             <p style="color:var(--text-muted); font-size:0.9rem;">為防止意外，您可以將目前的交易所所有資料下載為備份檔，或從備份檔還原。</p>
@@ -221,7 +208,6 @@
         </div>
     </div>
 
-    <!-- 2. 極速股票申購區 -->
     <div id="buy" class="tab-content">
         <div class="card">
             <h3>⚡ 極速申購終端</h3>
@@ -236,9 +222,7 @@
                     額度狀態：小組股票 (已用 <span id="quota-group" style="color:#fff;">0</span>/5) | 00502 大盤 (已用 <span id="quota-etf" style="color:#fff;">0</span>/1)
                 </div>
                 
-                <div class="stock-grid" id="fast-stock-grid">
-                    <!-- 動態由 JavaScript 生成按鈕 -->
-                </div>
+                <div class="stock-grid" id="fast-stock-grid"></div>
 
                 <div id="amount-selector" style="display:none; text-align:center; padding-top:10px; border-top: 1px solid var(--border);">
                     <h5 style="margin:0 0 10px 0; color:var(--text-main);">3. 點擊張數立即下單</h5>
@@ -264,7 +248,6 @@
         </div>
     </div>
 
-    <!-- 3. 週末結算區 -->
     <div id="weekly" class="tab-content">
         <div class="card">
             <h3>📊 週末股價結算分析</h3>
@@ -307,7 +290,6 @@
         </div>
     </div>
 
-    <!-- 4. 月底分紅區 -->
     <div id="monthly" class="tab-content">
         <div class="card">
             <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 20px; padding-bottom: 10px;">
@@ -344,27 +326,29 @@
     </div>
 </div>
 
-<!-- ================= 🧑‍🎓 學生查詢機 (Kiosk Mode) 全螢幕介面 ================= -->
 <div id="kiosk-mode">
     <div class="kiosk-header">
         <h1>🧑‍🎓 個人資產庫存查詢</h1>
-        <!-- Kiosk 模式返回鈕 -->
         <button id="kiosk-exit-btn" class="btn btn-outline" style="background:#0d1117; color:#58a6ff; border-color:#58a6ff;" onclick="window.exitKioskMode()">🔙 關閉並返回主控台</button>
     </div>
     <p style="color:var(--text-muted); font-size:1.1rem; text-align:center; margin-bottom: 30px;">請點擊您的姓名，查看您目前的證券帳戶與未實現損益。</p>
-    <div class="kiosk-grid" id="kiosk-student-grid">
-        <!-- 動態產生學生按鈕 -->
-    </div>
+    <div class="kiosk-grid" id="kiosk-student-grid"></div>
 </div>
 
-<!-- ================= 彈跳視窗區 (Modals) ================= -->
-
+<!-- Modals -->
 <div class="modal-overlay" id="qr-modal">
     <div class="modal" style="text-align:center;">
         <h2 style="color:var(--warning);">📱 學生自助掃描區</h2>
-        <p style="color:var(--text-muted);">請學生使用平板掃描下方 QR Code，即會自動進入「個人庫存查詢畫面」。</p>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom: 10px;">請學生使用平板相機掃描下方 QR Code，即可直接連入「個人庫存查詢畫面」。</p>
+        
         <div id="qrcode-display"></div>
-        <button class="btn btn-outline btn-block" style="margin-top:20px;" onclick="window.closeModal('qr-modal')">關閉</button>
+        
+        <div id="qr-url-info" style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); word-break: break-all; background: #010409; padding: 10px; border-radius: 6px; border: 1px solid var(--border);"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-primary" style="flex:1;" onclick="window.copyQRLink()">📋 複製學生端連結</button>
+            <button class="btn btn-outline" style="flex:1;" onclick="window.closeModal('qr-modal')">關閉</button>
+        </div>
     </div>
 </div>
 
@@ -394,12 +378,9 @@
     </div>
 </div>
 
-<!-- 學生個人資產詳情 Modal -->
 <div class="modal-overlay" id="student-portfolio-modal" style="z-index: 10000;">
     <div class="modal" style="max-width: 600px;">
         <h2 id="sp-name" style="color:var(--highlight); text-align:center;">姓名</h2>
-        
-        <!-- 月底發布的獎金看板 -->
         <div id="sp-final-banner" class="final-publish-banner" style="display:none;">
             <h3 style="margin: 0 0 5px 0; color: #fbbf24;">🎉 本月最終結算總獲益</h3>
             <div id="sp-final-total" style="font-size: 2.5rem; font-weight: bold; color: white;">$0</div>
@@ -424,7 +405,6 @@
     </div>
 </div>
 
-<!-- 抽籤 Modal -->
 <div class="modal-overlay" id="draw-modal">
     <div class="modal" style="text-align:center; max-width: 450px;">
         <h2>🃏 下週命運事件卡</h2>
@@ -441,16 +421,13 @@
     </div>
 </div>
 
-<!-- 通膨轉盤 Modal -->
 <div class="modal-overlay" id="inflation-modal">
     <div class="modal" style="text-align:center; max-width: 450px;">
         <h2>🎡 下月生活費通膨率</h2>
         <p style="color:var(--text-muted); margin-bottom: 15px;">物價上漲吃掉獲利！看看下個月生活費要多付多少？</p>
-        
         <div id="inflation-display" class="card-display-container" style="display:flex; justify-content:center; align-items:center; aspect-ratio: 1/1; border-radius: 50%;">
             <div id="inflation-text" class="slot-machine-text">❓</div>
         </div>
-
         <button id="inflation-draw-btn" class="btn btn-danger btn-block" style="font-size:1.2rem; padding:15px;" onclick="window.startInflationDraw()">🎰 啟動通膨轉盤</button>
         <button id="close-inflation-btn" class="btn btn-outline btn-block" style="margin-top:10px;" onclick="window.closeModal('inflation-modal')">關閉</button>
     </div>
@@ -479,9 +456,7 @@
     </div>
 </div>
 
-<!-- ================= 核心單機邏輯區 ================= -->
 <script>
-    // --- 🔑 多房客房間代碼設定 ---
     window.urlParams = new URLSearchParams(window.location.search);
     window.roomID = window.urlParams.get('room');
     if (window.roomID) {
@@ -489,7 +464,6 @@
     } else {
         window.roomID = localStorage.getItem('stock_exchange_room_id');
         if (!window.roomID && window.urlParams.get('mode') !== 'kiosk') {
-            // 為了避免瀏覽器封鎖原生的 prompt 彈跳視窗，在此改為自動賦予預設值
             window.roomID = "504";
             localStorage.setItem('stock_exchange_room_id', window.roomID);
         } else if (!window.roomID) {
@@ -505,7 +479,6 @@
 
     const LOCAL_STORAGE_KEY = `stock_exchange_v6_${window.roomID}`;
 
-    // --- 🃏 18 張事件卡設定 ---
     const ALL_18_CARDS = [
         { id: 1, name: '1.【大牛市來臨】多數上漲', effect: 'bull', img: './cards/1.jpg' },
         { id: 2, name: '2.【大熊市來襲】多數下跌', effect: 'bear', img: './cards/2.jpg' },
@@ -528,7 +501,6 @@
     ];
 
     const INFLATION_RATES = ['5%', '10%', '15%', '20%'];
-
     const MAX_STUDENTS = 27;
     const INITIAL_PRICE = 2000;
 
@@ -537,7 +509,6 @@
     window.currentFastStockId = null;
     let drawInterval;
 
-    // --- 音效引擎 ---
     let audioCtx = null;
     function initAudio() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -570,7 +541,6 @@
         const val = parseInt(document.getElementById('group-count-input').value);
         if(isNaN(val) || val < 1 || val > 15) return window.showModal('錯誤', '請輸入 1~15 之間的數字');
         window.db.groupsCount = val;
-        // 確保新增加的組別有初始股價
         for(let i=1; i<=val; i++) {
             let gid = i.toString();
             if(window.db.stockPrices[gid] === undefined) {
@@ -627,7 +597,7 @@
                 const importedDb = JSON.parse(e.target.result);
                 if (importedDb && importedDb.students && importedDb.stockPrices) {
                     window.db = importedDb;
-                    if(!window.db.groupsCount) window.db.groupsCount = 7; // 相容舊版備份
+                    if(!window.db.groupsCount) window.db.groupsCount = 7;
                     window.saveDataToCloud(); window.updateAllUI(); 
                     window.showModal('還原成功', '資料已成功還原並同步！');
                 } else { window.showModal('格式錯誤', '上傳的檔案不是有效的備份檔。'); }
@@ -651,12 +621,67 @@
     };
 
     window.openQRModal = function() {
-        const qrContainer = document.getElementById("qrcode-display"); qrContainer.innerHTML = ""; 
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('mode', 'kiosk'); 
-        currentUrl.searchParams.set('room', window.roomID); 
-        new QRCode(qrContainer, { text: currentUrl.toString(), width: 220, height: 220, colorDark : "#0d1117", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
+        const qrContainer = document.getElementById("qrcode-display"); 
+        qrContainer.innerHTML = ""; 
+        
+        // 抓取原始網址，並判斷是否處於模擬器或是本機環境
+        let rawHref = window.location.href;
+        let isBlobOrPreview = rawHref.startsWith('blob:') || rawHref.includes('usercontent.goog');
+        
+        let targetUrl = rawHref;
+        // 為了避免 URL 解析出錯，將 blob: 前綴拿掉
+        if (rawHref.startsWith('blob:')) {
+            targetUrl = rawHref.substring(5); 
+        }
+
+        try {
+            let urlObj = new URL(targetUrl);
+            urlObj.search = ''; 
+            urlObj.searchParams.set('room', window.roomID || "504");
+            urlObj.searchParams.set('mode', 'kiosk');
+            targetUrl = urlObj.toString();
+        } catch(e) {
+            let baseUrl = targetUrl.split('?')[0].split('#')[0];
+            targetUrl = baseUrl + `?room=${window.roomID || "504"}&mode=kiosk`;
+        }
+
+        window.currentKioskUrl = targetUrl;
+        
+        const urlInfo = document.getElementById('qr-url-info');
+        if (window.location.protocol === 'file:') {
+            urlInfo.innerHTML = `<span style="color:var(--warning);">⚠️ 提示：您目前正在開啟本機 HTML 檔案。<br>若要在學生平板使用，請先將本網頁部署至 GitHub Pages！</span>`;
+        } else if (isBlobOrPreview) {
+            // 如果偵測到是模擬器環境，給予強烈警告
+            urlInfo.innerHTML = `<span style="color:var(--danger); font-weight:bold; font-size: 1rem;">⚠️ 模擬器環境警告：</span><br>您目前位於網頁測試沙盒中。此連結為虛擬網址，<span style="color:var(--warning);">手機無法從外部直接掃描連入！</span><br><br>👉 <span style="color:white; font-weight:bold;">請將此程式碼發布至您的 GitHub Pages，QR Code 功能即會正常運作。</span>`;
+        } else {
+            urlInfo.innerText = targetUrl;
+        }
+
+        new QRCode(qrContainer, { 
+            text: targetUrl, 
+            width: 200, 
+            height: 200, 
+            colorDark : "#0d1117", 
+            colorLight : "#ffffff", 
+            correctLevel : QRCode.CorrectLevel.M 
+        });
+
         document.getElementById('qr-modal').style.display = 'flex';
+    };
+
+    window.copyQRLink = function() {
+        if (!window.currentKioskUrl) return;
+        const textArea = document.createElement("textarea");
+        textArea.value = window.currentKioskUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            window.showModal('複製成功', '學生查詢機連結已複製至剪貼簿！');
+        } catch (err) {
+            window.showModal('複製失敗', '請手動複製網址方塊中的內容。');
+        }
+        document.body.removeChild(textArea);
     };
 
     window.toggleKioskMode = function(isActive) {
@@ -664,6 +689,11 @@
             document.getElementById('main-interface').style.display = 'none';
             document.getElementById('kiosk-mode').style.display = 'block';
             window.renderKioskGrid();
+            
+            if (window.urlParams.get('mode') === 'kiosk') {
+                const exitBtn = document.getElementById('kiosk-exit-btn');
+                if(exitBtn) exitBtn.style.display = 'none';
+            }
         } else {
             document.getElementById('kiosk-mode').style.display = 'none';
             document.getElementById('main-interface').style.display = 'block';
@@ -673,7 +703,7 @@
     window.exitKioskMode = function() {
         if(window.urlParams.get('mode') === 'kiosk') { window.location.href = window.location.pathname; } 
         else { window.toggleKioskMode(false); }
-    }
+    };
 
     window.renderKioskGrid = function() {
         const grid = document.getElementById('kiosk-student-grid'); grid.innerHTML = '';
@@ -704,7 +734,8 @@
             tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text-muted);">目前尚未申購任何股票</td></tr>';
         } else {
             myTxs.forEach(tx => {
-                let cost = tx.amount * INITIAL_PRICE; let currentPrice = window.db.stockPrices[tx.stockId];
+                let cost = tx.amount * INITIAL_PRICE; 
+                let currentPrice = window.db.stockPrices[tx.stockId] || INITIAL_PRICE;
                 let value = tx.amount * currentPrice; let profit = value - cost;
                 totalCost += cost; totalValue += value;
                 let profitStr = profit === 0 ? '<span class="text-neutral">0</span>' : (profit > 0 ? `<span class="text-up">▲ +${profit}</span>` : `<span class="text-down">▼ ${profit}</span>`);
@@ -905,7 +936,13 @@
 
     window.previewWeeklyPrice = function() {
         const inputs = document.querySelectorAll('.weekly-score'); let groupScores = []; let missing = false;
-        inputs.forEach(input => { const score = parseInt(input.value); if (isNaN(score)) missing = true; groupScores.push({ id: input.getAttribute('data-group'), score: score, currentPrice: window.db.stockPrices[input.getAttribute('data-group')] }); });
+        inputs.forEach(input => { 
+            const score = parseInt(input.value); 
+            if (isNaN(score)) missing = true; 
+            let currP = window.db.stockPrices[input.getAttribute('data-group')];
+            if (currP === undefined) currP = INITIAL_PRICE;
+            groupScores.push({ id: input.getAttribute('data-group'), score: score, currentPrice: currP }); 
+        });
         if (missing) return window.showModal('資料未齊', '請完整填寫各組的【本週總分】才能進行大盤運算。');
 
         let manualAdjs = {};
@@ -917,20 +954,18 @@
         let sortedScores = [...groupScores].sort((a, b) => b.score - a.score);
         let count = sortedScores.length;
         
-        // 動態決定基準線 (Baseline) - 修正偶數取中位數平均
         let baselineScore;
         if (event === 'bull') {
-            let idx = Math.floor(count * 0.75); // 牛市：取大約 75% 落後位置當基準，讓多數人上漲
+            let idx = Math.floor(count * 0.75);
             if (idx >= count) idx = count - 1;
             baselineScore = sortedScores[idx].score;
         } else if (event === 'bear') {
-            let idx = Math.floor(count * 0.25); // 熊市：取大約 25% 領先位置當基準，讓多數人下跌
+            let idx = Math.floor(count * 0.25);
             baselineScore = sortedScores[idx].score;
         } else {
-            // 常態事件：精準計算中位數
-            if (count % 2 !== 0) { // 奇數組別：直接取正中間
+            if (count % 2 !== 0) {
                 baselineScore = sortedScores[Math.floor(count / 2)].score;
-            } else { // 偶數組別：取中間兩名的平均
+            } else {
                 let mid = count / 2;
                 baselineScore = (sortedScores[mid - 1].score + sortedScores[mid].score) / 2;
             }
@@ -946,7 +981,6 @@
             let scoreDiff = group.score - baselineScore; let priceChange = 0;
             if (scoreDiff > 0) priceChange = Math.min(scoreDiff * upMultiplier, maxUpCap); else if (scoreDiff < 0) priceChange = Math.max(scoreDiff * downMultiplier, maxDownCap);
             
-            // 確保平均後若產生小數點，換算成股價也能保持整數
             priceChange = Math.round(priceChange); 
 
             if (event === 'concentrate') { let rank = sortedScores.findIndex(s => s.id === group.id) + 1; if (rank > 2 && priceChange > 0) priceChange = 0; }
@@ -967,11 +1001,10 @@
             let taxNote = data.taxDeducted ? ' <span style="font-size:0.8rem;color:var(--danger);">(扣稅200)</span>' : '';
             let adjNote = data.manualAdj !== 0 ? ` <span style="font-size:0.8rem;color:var(--warning);">(含手動 ${data.manualAdj > 0 ? '+'+data.manualAdj : data.manualAdj})</span>` : '';
             let rankBadge = `${index + 1}`; if(index===0) rankBadge = '🥇 1'; if(index===1) rankBadge = '🥈 2'; if(index===2) rankBadge = '🥉 3';
-            resultRows.push(`<tr><td style="font-weight:bold;">${rankBadge}</td><td>第 ${group.id} 組</td><td>${group.score} <small style="color:var(--text-muted)">(距基準${data.scoreDiff > 0 ? '+'+data.scoreDiff : data.scoreDiff})</small></td><td>${data.currentPrice}</td><td class="${changeClass}">${changeSymbol}${Math.abs(data.priceChange)}${taxNote}${adjNote}</td><td style="font-weight:bold; font-size:1.1rem; color: #fff;">${data.newPrice}</td></tr>`);
+            resultRows.push(`<tr><td style="font-weight:bold;">${rankBadge}</td><td>第 ${group.id} 組</td><td>${group.score} <small style="color:var(--text-muted)">(距基準${data.scoreDiff > 0 ? '+'+data.scoreDiff : data.scoreDiff})</small></td><td>${group.currentPrice}</td><td class="${changeClass}">${changeSymbol}${Math.abs(data.priceChange)}${taxNote}${adjNote}</td><td style="font-weight:bold; font-size:1.1rem; color: #fff;">${data.newPrice}</td></tr>`);
         });
 
         let etfCurrent = window.db.stockPrices['00502']; 
-        // 加入防呆機制：如果找不到 00502 的價格，就預設為 INITIAL_PRICE (2000)
         if (etfCurrent === undefined) etfCurrent = INITIAL_PRICE;
         
         let etfNewPrice = 0; let etfNote = "";
@@ -1036,7 +1069,7 @@
             let totalPrincipalAndProfit = 0; let totalDividend = 0;
             let myTx = window.db.transactions.filter(t => t.studentId === student.id);
             myTx.forEach(tx => {
-                let finalPrice = window.db.stockPrices[tx.stockId];
+                let finalPrice = window.db.stockPrices[tx.stockId] || INITIAL_PRICE;
                 totalPrincipalAndProfit += (finalPrice * tx.amount);
                 totalDividend += (groupDividends[tx.stockId] * tx.amount);
             });
@@ -1097,28 +1130,21 @@
         window.db.stockPrices['00502'] = INITIAL_PRICE; window.db.lastWeekChanges['00502'] = 0; window.db.transactions = [];
         window.db.publishedMonthlyResult = []; 
         
-        // 清除暫存運算資料
         window.tempNewPrices = {}; 
         window.tempChanges = {};
         window.tempMonthlyResults = null;
 
-        // 儲存並更新所有介面
         window.saveDataToCloud();
         
-        // 強制關閉並隱藏所有結算預覽卡片
         document.getElementById('weekly-preview-card').style.display = 'none';
         document.getElementById('monthly-result-card').style.display = 'none';
         
-        // 清空所有的手動輸入框 (包含週末分數、月底分數、手動加減分)
         document.querySelectorAll('.weekly-score, .monthly-score, .manual-adj-input').forEach(i => { if(i) i.value = ''; });
         let etfAdjInput = document.getElementById('etf-manual-adj'); if(etfAdjInput) etfAdjInput.value = '';
         
-        // 關閉確認視窗並顯示成功提示
         window.closeModal('confirm-reset-modal');
         window.showModal('系統重置', '新月份已開啟！交易紀錄已清空，大盤與各組股價皆已回歸起始點 $2000。');
     };
-
-    window.confirmResetMonth = window.openResetConfirmModal; // 相容性保留
 
     window.initializeEmptyDb = function() {
         window.db = { students: [], stockPrices: {}, lastWeekChanges: {}, transactions: [], publishedMonthlyResult: [], groupsCount: 7 };
@@ -1131,7 +1157,7 @@
         const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (stored) {
             window.db = JSON.parse(stored);
-            if(!window.db.groupsCount) window.db.groupsCount = 7; // 相容舊版資料
+            if(!window.db.groupsCount) window.db.groupsCount = 7;
         }
         else window.initializeEmptyDb();
         window.updateAllUI();
@@ -1158,6 +1184,10 @@
 
     initDropdown();
     window.loadOfflineData();
+
+    if (window.urlParams.get('mode') === 'kiosk') {
+        window.toggleKioskMode(true);
+    }
 </script>
 
 <script type="module">
