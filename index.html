@@ -149,7 +149,9 @@
         <span class="ticker">
             <span id="sync-indicator" class="sync-status"></span>
             <span id="sync-text"> STATUS: 單機系統已啟動，雲端連線偵測中...</span>
-            <span style="color:var(--text-muted); margin-left: 10px;">| 房間代碼: <b id="display-room-id" style="color:var(--warning);">未設定</b></span>
+            <span style="color:var(--text-muted); margin-left: 10px;">| 房間代碼: <b id="display-room-id" style="color:var(--warning);">未設定</b>
+                <button onclick="window.openRoomModal()" style="background:#161b22; border:1px solid #30363d; color:#8b949e; border-radius:4px; padding:2px 8px; cursor:pointer; font-size:0.8rem; margin-left:5px; transition:0.2s;">更換</button>
+            </span>
         </span>
         <div class="top-controls">
             <button class="btn btn-warning" style="padding: 5px 15px; color:#000;" onclick="window.openQRModal()">📱 產生學生 QR Code</button>
@@ -452,6 +454,18 @@
         <div style="display:flex; gap:10px; justify-content:center;">
             <button class="btn btn-danger" onclick="window.executeResetMonth()" style="min-width: 120px;">確定重置</button>
             <button class="btn btn-outline" onclick="window.closeModal('confirm-reset-modal')" style="min-width: 120px;">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="room-modal" style="z-index: 10003;">
+    <div class="modal" style="text-align:center; max-width:400px;">
+        <h2 style="color:var(--highlight);">🚪 切換房間代碼</h2>
+        <p style="color:var(--text-muted); margin-bottom: 15px; font-size:0.9rem;">請輸入您想進入的房間代碼 (例如: 502)。<br>系統將會重新載入並同步該房間的雲端資料。</p>
+        <input type="text" id="new-room-input" placeholder="輸入代碼" style="width:80%; text-align:center; font-size:1.2rem; margin-bottom:20px; font-weight:bold;">
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn btn-primary" onclick="window.executeChangeRoom()" style="min-width: 120px;">切換並載入</button>
+            <button class="btn btn-outline" onclick="window.closeModal('room-modal')" style="min-width: 120px;">取消</button>
         </div>
     </div>
 </div>
@@ -1157,6 +1171,22 @@
         
         window.closeModal('confirm-reset-modal');
         window.showModal('系統重置', '新月份已開啟！交易紀錄已清空，大盤與各組股價皆已回歸起始點 $2000。');
+    };
+
+    window.openRoomModal = function() {
+        document.getElementById('new-room-input').value = window.roomID;
+        document.getElementById('room-modal').style.display = 'flex';
+    };
+    
+    window.executeChangeRoom = function() {
+        const newRoom = document.getElementById('new-room-input').value.trim();
+        if(newRoom && newRoom !== "") {
+            let url = new URL(window.location.href);
+            url.searchParams.set('room', newRoom);
+            window.location.href = url.toString();
+        } else {
+            window.showModal("錯誤", "房間代碼不能為空！");
+        }
     };
 
     window.initializeEmptyDb = function() {
